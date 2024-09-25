@@ -48,7 +48,7 @@ RUN apt-get update -y \
 # Install shared libraries that we depend on via APT, but *not*
 # the -dev packages to save space!
 # Also run a smoke test on ODM and OpenSfM
-RUN pip install ipython ipykernel
+RUN pip3 install ipython ipykernel
 ENV PYTHONPATH=$PYTHONPATH:/code/opendm
 RUN bash configure.sh installruntimedepsonly \
   && apt-get clean \
