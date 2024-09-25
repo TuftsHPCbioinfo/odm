@@ -5,11 +5,16 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONPATH="$PYTHONPATH:/code/SuperBuild/install/lib/python3.9/dist-packages:/code/SuperBuild/install/lib/python3.8/dist-packages:/code/SuperBuild/install/bin/opensfm" \
     LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/code/SuperBuild/install/lib"
 
+RUN apt-get update && apt-get install -y wget
 # Prepare directories
 WORKDIR /code
 
 # Copy everything
-COPY . ./
+RUN wget https://github.com/OpenDroneMap/ODM/archive/refs/tags/v3.5.4.tar.gz \
+    && tar -xvf v3.5.4.tar.gz \ 
+    && mv ODM-3.5.4/* /code/ \
+    && rm -rf ODM-3.5.4 \
+    && rm v3.5.4.tar.gz
 
 # Run the build
 RUN PORTABLE_INSTALL=YES GPU_INSTALL=YES bash configure.sh install
